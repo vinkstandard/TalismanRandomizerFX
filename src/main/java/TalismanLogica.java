@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TalismanLogica {
 
@@ -75,5 +72,37 @@ public class TalismanLogica {
                 "Artificiere", "Ingegnere", "Ingannatore"
         ));
 
+    }
+    public static List<String> getPersonaggiDaEspansione(List<String> espansioniAttive) {
+        List<String> lista = new ArrayList<>();
+        for (String esp : espansioniAttive) {
+            lista.addAll(personaggi.getOrDefault(esp, Collections.emptyList()));
+        }
+        return lista;
+    }
+    public static List<String> estraiPersonaggi(int numGiocatori, List<String> espansioni) {
+        List<String> lista = getPersonaggiDaEspansione(espansioni);
+        Collections.shuffle(lista);
+        return lista.subList(0, Math.min(numGiocatori, lista.size()));
+    }
+    public static Map<String, String> getLegenda() {
+        Map<String, String> legenda = new LinkedHashMap<>();
+        legenda.put("1", "Classic");
+        legenda.put("2", "Mietitore");
+        legenda.put("3", "Avanzata dei Ghiacci");
+        legenda.put("4", "Dungeon");
+        legenda.put("5", "Lande Montuose");
+        legenda.put("6", "Stagno Sacro");
+        legenda.put("7", "Città");
+        legenda.put("8", "Luna di Sangue");
+        legenda.put("9", "Lande del Fuoco");
+        legenda.put("10", "Il Drago");
+        legenda.put("11", "Il Messaggero");
+        legenda.put("12", "Lande boscose");
+        legenda.put("13", "Il Cataclisma");
+        legenda.put("14", "Regno delle Anime");
+        legenda.put("15", "Le Bestie Antiche");
+        legenda.put("16", "Il Regno Meccanico");
+        return legenda;
     }
 }
