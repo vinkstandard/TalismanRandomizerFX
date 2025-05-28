@@ -1,93 +1,129 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.io.File;
+import javafx.scene.media.AudioClip;
+import javafx.stage.*;
+import javafx.util.*;
+
+import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TalismanRandomizerFX extends Application {
 
-    private static final List<String> characters = Arrays.asList("Assassino", "Druido", "Mago");
+    private TextField campoNumeroGiocatori;
+    private List<CheckBox> caselleDaSpuntare;
 
     @Override
-    public void start(Stage primaryStage) {
-        VBox root = new VBox(15);
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-background-color: #000000;"); // colore azzurro chiaro
+    public void start(Stage stage) {
+        VBox root = new VBox(10);
+        root.setPadding(new Insets(20));
+
+        Label label = new Label("Numero di giocatori:");
+        campoNumeroGiocatori = new TextField();
+        campoNumeroGiocatori.setPromptText("Es. 3");
+
+        Label labelEspansioni = new Label("Seleziona le espansioni:");
+        VBox checkboxContainer = new VBox(5);
+
+        // Genera i checkbox usando la legenda della logica
+        Map<String, String> legenda = TalismanLogica.getLegenda(); // Questo deve esistere!
+        caselleDaSpuntare = new ArrayList<>();
+
+        for (Map.Entry<String, String> entry : legenda.entrySet()) {
+            CheckBox cb = new CheckBox(entry.getValue());
+            cb.setUserData(entry.getKey()); // salva il numero della espansione
+            caselleDaSpuntare.add(cb);
+            checkboxContainer.getChildren().add(cb);
+        }
+
+        Button estraiButton = new Button("Estrai Personaggi");
+        HBox imageBox = new HBox(10);
+        imageBox.setAlignment(Pos.CENTER);
+        imageBox.setStyle("-fx-background-color: black; -fx-padding: 10px;");
+        estraiButton.setDisable(false);
+
+        estraiButton.setOnAction(e -> {
+            try {
+                int numeroGiocatori = Integer.parseInt(campoNumeroGiocatori.getText());
+                List<String> espansioniSelezionate = caselleDaSpuntare.stream()
+                        .filter(CheckBox::isSelected)
+                        .map(cb -> (String) cb.getUserData())
+                        .collect(Collectors.toList());
+
+                List<String> risultati = TalismanLogica.estraiPersonaggi(numeroGiocatori, espansioniSelezionate);
+
+                estraiButton.setDisable(true); // disabilita il pulsante
+
+                imageBox.getChildren().clear();
+
+                Timeline timeline = new Timeline();
+                for (int i = 0; i < risultati.size(); i++) {
+                    final int index = i;
+                    KeyFrame keyFrame = new KeyFrame(Duration.seconds(1 + i * 1.5), event -> {
+                        String nome = risultati.get(index);
+                        String fileName = nome.toLowerCase().replaceAll(" ", "").replaceAll("'", "") + ".png";
+                        URL imageUrl = getClass().getResource("/immagini/" + fileName);
+                        if (imageUrl != null) {
+                            ImageView imageView = new ImageView(new Image(imageUrl.toExternalForm()));
+                            imageView.setFitWidth(200);
+                            imageView.setFitHeight(250);
+                            imageView.setPreserveRatio(true);
+                            imageBox.getChildren().add(imageView);
+                            VBox pgBox = new VBox(5);
+                            pgBox.setAlignment(Pos.CENTER);
+
+                            // per mettere i nomi
+                            Text nomeTesto = new Text(nome.toUpperCase()); // elevato a uppercase per maggiore leggibilità
+                            nomeTesto.setFill(javafx.scene.paint.Color.web("#ffd966")); // colore del nome
+                            nomeTesto.setFont(Font.font("System", FontWeight.BOLD, 20)); // font del nome
+                            pgBox.getChildren().addAll(imageView, nomeTesto);
+                            imageBox.getChildren().add(pgBox);
 
 
-        Text title = new Text("Estrazione Personaggi");
+                        } else {
+                            System.out.println("Immagine non trovata per: " + nome);
+                        }
+                        // Suono
+                        try {
+                            AudioClip clip = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
+                            clip.play();
+                        } catch (Exception ex) {
+                            System.out.println("Errore suono: " + ex.getMessage());
+                        }
+                    });
+                    timeline.getKeyFrames().add(keyFrame);
+                }
 
-        Button tastoInizia = new Button("Inizia");
-        VBox boxPersonaggi = new VBox(10);
-        boxPersonaggi.setAlignment(Pos.CENTER);
+                timeline.play();
 
-        tastoInizia.setOnAction(e -> {
-            tastoInizia.setDisable(true); // Disabilita il bottone
-
-            boxPersonaggi.getChildren().clear();
-            List<String> selezionati = getRandomCharacters(3);
-
-            // Creazione della timeline per mostrare 1 personaggio alla volta
-            Timeline timeline = new Timeline();
-            for (int i = 0; i < selezionati.size(); i++) {
-                final int index = i;
-                KeyFrame frame = new KeyFrame(Duration.seconds((index + 1) * 1.5), ev -> {
-                    String nome = selezionati.get(index);
-                    Image immagine = new Image(getClass().getResource("/immagini/" + nome.toLowerCase() + ".png").toExternalForm());
-                    ImageView view = new ImageView(immagine);
-                    view.setPreserveRatio(true);
-                    view.setFitHeight(300);
-                    view.setFitWidth(200);
-
-                    VBox pgBox = new VBox(5);
-                    pgBox.setAlignment(Pos.CENTER);
-
-                    Text nomeTesto = new Text(nome.toUpperCase()); // nome elevato a uppercase per maggior leggibilità
-                    nomeTesto.setFill(javafx.scene.paint.Color.web("#ffd966")); // il colore del nome del personaggio
-                    nomeTesto.setFont(Font.font("System", FontWeight.BOLD, 20));
-                    pgBox.getChildren().addAll(view, nomeTesto);
-
-                    boxPersonaggi.getChildren().add(pgBox);
-
-                    playSound(); // riproduco il suono ogni volta che esce fuori un personaggio
-                });
-                timeline.getKeyFrames().add(frame);
+            } catch (NumberFormatException ex) {
+                System.out.println("Numero giocatori non valido");
             }
-
-            timeline.play();
         });
+        AudioClip finale = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
 
-        root.getChildren().addAll(title, tastoInizia, boxPersonaggi);
+        ScrollPane scroll = new ScrollPane(checkboxContainer);
+        scroll.setPrefHeight(200);
+        scroll.setFitToWidth(true);
 
-        Scene scena = new Scene(root, 600, 800);
-        primaryStage.setScene(scena);
-        primaryStage.setTitle("Talisman Randomizer FX");
-        primaryStage.setResizable(false); // per bloccare il ridimensionamento
-        primaryStage.show();
-    }
+        root.getChildren().addAll(label, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, imageBox);
 
-    private List<String> getRandomCharacters(int count) {
-        List<String> copy = new ArrayList<>(characters);
-        Collections.shuffle(copy);
-        return copy.subList(0, count);
-    }
-
-    private void playSound() {
-        AudioClip sound = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
-        sound.play();
+        Scene scene = new Scene(root, 800, 600);
+        stage.setScene(scene);
+        stage.setTitle("Talisman Randomizer FX");
+        stage.show();
     }
 
     public static void main(String[] args) {
