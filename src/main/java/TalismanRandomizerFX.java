@@ -38,7 +38,7 @@ public class TalismanRandomizerFX extends Application {
         VBox checkboxContainer = new VBox(5);
 
         // Genera i checkbox usando la legenda della logica
-        Map<String, String> legenda = TalismanLogica.getLegenda(); // Questo deve esistere!
+        Map<String, String> legenda = TalismanLogica.getLegenda();
         caselleDaSpuntare = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : legenda.entrySet()) {
@@ -49,13 +49,17 @@ public class TalismanRandomizerFX extends Application {
         }
 
         Button estraiButton = new Button("Estrai Personaggi");
-        HBox imageBox = new HBox(10);
-        imageBox.setAlignment(Pos.CENTER);
-        imageBox.setStyle("-fx-background-color: black; -fx-padding: 10px;");
+        HBox boxImmaginiPersonaggi = new HBox(10);
+        boxImmaginiPersonaggi.setAlignment(Pos.CENTER);
+        boxImmaginiPersonaggi.setStyle("-fx-background-color: black; -fx-padding: 10px;");
         estraiButton.setDisable(false);
 
         estraiButton.setOnAction(e -> {
             try {
+                AudioClip suonoInizio = new AudioClip(getClass().getResource("/suoni/inizio.wav").toExternalForm());
+                suonoInizio.setVolume(0.1);
+                suonoInizio.play();
+
                 int numeroGiocatori = Integer.parseInt(campoNumeroGiocatori.getText());
                 List<String> espansioniSelezionate = caselleDaSpuntare.stream()
                         .filter(CheckBox::isSelected)
@@ -66,63 +70,70 @@ public class TalismanRandomizerFX extends Application {
 
                 estraiButton.setDisable(true); // disabilita il pulsante
 
-                imageBox.getChildren().clear();
+                boxImmaginiPersonaggi.getChildren().clear();
 
                 Timeline timeline = new Timeline();
                 for (int i = 0; i < risultati.size(); i++) {
                     final int index = i;
                     KeyFrame keyFrame = new KeyFrame(Duration.seconds(1 + i * 1.5), event -> {
                         String nome = risultati.get(index);
-                        String fileName = nome.toLowerCase().replaceAll(" ", "").replaceAll("'", "") + ".png";
+//                        String fileName = nome.toLowerCase().replaceAll(" ", "").replaceAll("'", "") + ".png";
+                        String fileName = nome.toLowerCase() + ".png";
                         URL imageUrl = getClass().getResource("/immagini/" + fileName);
                         if (imageUrl != null) {
                             ImageView imageView = new ImageView(new Image(imageUrl.toExternalForm()));
                             imageView.setFitWidth(200);
                             imageView.setFitHeight(250);
                             imageView.setPreserveRatio(true);
-                            imageBox.getChildren().add(imageView);
+                            boxImmaginiPersonaggi.getChildren().add(imageView);
                             VBox pgBox = new VBox(5);
                             pgBox.setAlignment(Pos.CENTER);
 
-                            // per mettere i nomi
+                            // per mettere il nome sotto all'immagine del personaggio
                             Text nomeTesto = new Text(nome.toUpperCase()); // elevato a uppercase per maggiore leggibilità
                             nomeTesto.setFill(javafx.scene.paint.Color.web("#ffd966")); // colore del nome
                             nomeTesto.setFont(Font.font("System", FontWeight.BOLD, 20)); // font del nome
                             pgBox.getChildren().addAll(imageView, nomeTesto);
-                            imageBox.getChildren().add(pgBox);
+                            boxImmaginiPersonaggi.getChildren().add(pgBox);
 
 
                         } else {
-                            System.out.println("Immagine non trovata per: " + nome);
+                            System.out.println(">> Immagine non trovata per: " + nome);
                         }
-                        // Suono
+                        // parte il suono quando piazziamo un'immagine
                         try {
                             AudioClip clip = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
+                            clip.setVolume(0.25);
                             clip.play();
                         } catch (Exception ex) {
-                            System.out.println("Errore suono: " + ex.getMessage());
+                            System.out.println(">> Errore con il suono: " + ex.getMessage());
                         }
                     });
                     timeline.getKeyFrames().add(keyFrame);
                 }
 
+                timeline.setOnFinished(finishEvent -> {
+                    AudioClip suonoFinale = new AudioClip(getClass().getResource("/suoni/fine.wav").toExternalForm());
+                    suonoFinale.setVolume(0.05);
+                    suonoFinale.play();
+
+                });
                 timeline.play();
 
             } catch (NumberFormatException ex) {
-                System.out.println("Numero giocatori non valido");
+                System.out.println(">> Numero giocatori non valido.");
             }
         });
-        AudioClip finale = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
 
         ScrollPane scroll = new ScrollPane(checkboxContainer);
         scroll.setPrefHeight(200);
         scroll.setFitToWidth(true);
 
-        root.getChildren().addAll(label, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, imageBox);
+        root.getChildren().addAll(label, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1200, 600);
         stage.setScene(scene);
-        stage.setTitle("Talisman Randomizer FX");
+        stage.setTitle("Sistema Pseudointelligente di Estrazione Aleatoria Nominativa ad Alta Entropia_v2 (S.P.E.A.N.A.E.)  Made by Vincent");
         stage.show();
     }
 
