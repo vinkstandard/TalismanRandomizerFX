@@ -35,9 +35,8 @@ public class TalismanRandomizerFX extends Application {
         campoNumeroGiocatori.setPromptText("Es. 3");
 
         Label labelEspansioni = new Label("Seleziona le espansioni:");
-        VBox checkboxContainer = new VBox(5);
+        VBox containerCaselle = new VBox(5);
 
-        // Genera i checkbox usando la legenda della logica
         Map<String, String> legenda = TalismanLogica.getLegenda();
         caselleDaSpuntare = new ArrayList<>();
 
@@ -45,7 +44,7 @@ public class TalismanRandomizerFX extends Application {
             CheckBox cb = new CheckBox(entry.getValue());
             cb.setUserData(entry.getKey()); // salva il numero della espansione
             caselleDaSpuntare.add(cb);
-            checkboxContainer.getChildren().add(cb);
+            containerCaselle.getChildren().add(cb);
         }
 
         Button estraiButton = new Button("Estrai Personaggi");
@@ -77,15 +76,14 @@ public class TalismanRandomizerFX extends Application {
                     final int index = i;
                     KeyFrame keyFrame = new KeyFrame(Duration.seconds(1 + i * 1.5), event -> {
                         String nome = risultati.get(index);
-//                        String fileName = nome.toLowerCase().replaceAll(" ", "").replaceAll("'", "") + ".png";
                         String fileName = nome.toLowerCase() + ".png";
                         URL imageUrl = getClass().getResource("/immagini/" + fileName);
                         if (imageUrl != null) {
-                            ImageView imageView = new ImageView(new Image(imageUrl.toExternalForm()));
-                            imageView.setFitWidth(200);
-                            imageView.setFitHeight(250);
-                            imageView.setPreserveRatio(true);
-                            boxImmaginiPersonaggi.getChildren().add(imageView);
+                            ImageView immaginePersonaggio = new ImageView(new Image(imageUrl.toExternalForm()));
+                            immaginePersonaggio.setFitWidth(200);
+                            immaginePersonaggio.setFitHeight(250);
+                            immaginePersonaggio.setPreserveRatio(true);
+                            boxImmaginiPersonaggi.getChildren().add(immaginePersonaggio);
                             VBox pgBox = new VBox(5);
                             pgBox.setAlignment(Pos.CENTER);
 
@@ -93,7 +91,7 @@ public class TalismanRandomizerFX extends Application {
                             Text nomeTesto = new Text(nome.toUpperCase()); // elevato a uppercase per maggiore leggibilità
                             nomeTesto.setFill(javafx.scene.paint.Color.web("#ffd966")); // colore del nome
                             nomeTesto.setFont(Font.font("System", FontWeight.BOLD, 20)); // font del nome
-                            pgBox.getChildren().addAll(imageView, nomeTesto);
+                            pgBox.getChildren().addAll(immaginePersonaggio, nomeTesto);
                             boxImmaginiPersonaggi.getChildren().add(pgBox);
 
 
@@ -102,9 +100,9 @@ public class TalismanRandomizerFX extends Application {
                         }
                         // parte il suono quando piazziamo un'immagine
                         try {
-                            AudioClip clip = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
-                            clip.setVolume(0.25);
-                            clip.play();
+                            AudioClip suonoApparizionePersonaggio = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
+                            suonoApparizionePersonaggio.setVolume(0.25);
+                            suonoApparizionePersonaggio.play();
                         } catch (Exception ex) {
                             System.out.println(">> Errore con il suono: " + ex.getMessage());
                         }
@@ -112,6 +110,7 @@ public class TalismanRandomizerFX extends Application {
                     timeline.getKeyFrames().add(keyFrame);
                 }
 
+                // a fine "animazione", parte la musichetta
                 timeline.setOnFinished(finishEvent -> {
                     AudioClip suonoFinale = new AudioClip(getClass().getResource("/suoni/fine.wav").toExternalForm());
                     suonoFinale.setVolume(0.05);
@@ -125,7 +124,7 @@ public class TalismanRandomizerFX extends Application {
             }
         });
 
-        ScrollPane scroll = new ScrollPane(checkboxContainer);
+        ScrollPane scroll = new ScrollPane(containerCaselle);
         scroll.setPrefHeight(200);
         scroll.setFitToWidth(true);
 
