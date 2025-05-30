@@ -1,0 +1,23 @@
+.dark-mode {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #dddddd;
+}
+
+.dark-mode Label, .dark-mode Text, .dark-mode .check-box, .dark-mode .text-field, .dark-mode Button {
+    -fx-text-fill: #dddddd;
+}
+
+.dark-mode .text-field, .dark-mode .scroll-pane {
+    -fx-background-color: #2c2c2c;
+}
+
+.dark-mode Button {
+    -fx-background-color: #444444;
+}
+.dark-mode .scroll-pane {
+    -fx-background: #2c2c2c;
+    -fx-border-color: #444;
+}
+.dark-mode .vbox-caselle {
+    -fx-background-color: #2c2c2c;
+}
