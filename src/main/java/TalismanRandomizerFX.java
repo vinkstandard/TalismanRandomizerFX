@@ -30,12 +30,37 @@ public class TalismanRandomizerFX extends Application {
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
 
+        CheckBox abilitaModalitaScura = new CheckBox("Modalità scura");
+        abilitaModalitaScura.setOnAction(e -> {
+            if (abilitaModalitaScura.isSelected()) {
+                root.getStyleClass().add("dark-mode");
+            } else {
+                root.getStyleClass().remove("dark-mode");
+            }
+        });
+
         Label label = new Label("Numero di giocatori:");
         campoNumeroGiocatori = new TextField();
         campoNumeroGiocatori.setPromptText("Es. 3");
 
+        // impedisce l'inserimento di caratteri non numerici e oltre 6
+        campoNumeroGiocatori.setTextFormatter(new TextFormatter<String>(change -> {
+            if (!change.getControlNewText().matches("\\d{0,1}")) {
+                return null;
+            }
+            try {
+                int val = Integer.parseInt(change.getControlNewText());
+                if (val > 6) return null;
+            } catch (NumberFormatException e) {
+                // ignora gli errori temporanei mentre si digita
+            }
+            return change;
+        }));
+
         Label labelEspansioni = new Label("Seleziona le espansioni:");
         VBox containerCaselle = new VBox(5);
+        containerCaselle.getStyleClass().add("vbox-caselle");
+
 
         Map<String, String> legenda = TalismanLogica.getLegenda();
         caselleDaSpuntare = new ArrayList<>();
@@ -51,6 +76,8 @@ public class TalismanRandomizerFX extends Application {
         HBox boxImmaginiPersonaggi = new HBox(10);
         boxImmaginiPersonaggi.setAlignment(Pos.CENTER);
         boxImmaginiPersonaggi.setStyle("-fx-background-color: black; -fx-padding: 10px;");
+        boxImmaginiPersonaggi.setVisible(false); // lo nascondiamo, e lo riattiviamo solo quando il giocatore clicca estrai personaggi
+
         estraiButton.setDisable(false);
 
         estraiButton.setOnAction(e -> {
@@ -72,6 +99,8 @@ public class TalismanRandomizerFX extends Application {
                 boxImmaginiPersonaggi.getChildren().clear();
 
                 Timeline timeline = new Timeline();
+                boxImmaginiPersonaggi.setVisible(true); // lo riattiviamo
+
                 for (int i = 0; i < risultati.size(); i++) {
                     final int index = i;
                     KeyFrame keyFrame = new KeyFrame(Duration.seconds(1 + i * 1.5), event -> {
@@ -128,9 +157,13 @@ public class TalismanRandomizerFX extends Application {
         scroll.setPrefHeight(200);
         scroll.setFitToWidth(true);
 
-        root.getChildren().addAll(label, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
+
+        // Aggiungi il toggle all'inizio dell'interfaccia
+        root.getChildren().addAll(abilitaModalitaScura, label, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
 
         Scene scene = new Scene(root, 1200, 600);
+        scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm()); // crea questo file dopo
+
         stage.setScene(scene);
         stage.setTitle("Sistema Pseudointelligente di Estrazione Aleatoria Nominativa ad Alta Entropia_v2 (S.P.E.A.N.A.E.)  Made by Vincent");
         stage.show();
