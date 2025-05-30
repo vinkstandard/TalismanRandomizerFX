@@ -81,25 +81,43 @@ public class TalismanRandomizerFX extends Application {
         estraiButton.setDisable(false);
 
         estraiButton.setOnAction(e -> {
+            String testoNumero = campoNumeroGiocatori.getText();
+            int numeroGiocatori;
+
+            try {
+                numeroGiocatori = Integer.parseInt(testoNumero);
+                if (numeroGiocatori < 1 || numeroGiocatori > 6) {
+                    mostraAvviso("Inserisci un numero di giocatori valido (1-6).");
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                mostraAvviso("Inserisci un numero di giocatori valido.");
+                return;
+            }
+
+            // una lista che conterrà tutte le espansioni che l'utente ha selezionato
+            List<String> espansioniSelezionate = caselleDaSpuntare.stream()
+                    .filter(CheckBox::isSelected)
+                    .map(cb -> (String) cb.getUserData())
+                    .collect(Collectors.toList());
+
+            if (espansioniSelezionate.isEmpty()) {
+                mostraAvviso("Seleziona almeno un'espansione.");
+                return;
+            }
+
             try {
                 AudioClip suonoInizio = new AudioClip(getClass().getResource("/suoni/inizio.wav").toExternalForm());
                 suonoInizio.setVolume(0.1);
                 suonoInizio.play();
 
-                int numeroGiocatori = Integer.parseInt(campoNumeroGiocatori.getText());
-                List<String> espansioniSelezionate = caselleDaSpuntare.stream()
-                        .filter(CheckBox::isSelected)
-                        .map(cb -> (String) cb.getUserData())
-                        .collect(Collectors.toList());
-
                 List<String> risultati = TalismanLogica.estraiPersonaggi(numeroGiocatori, espansioniSelezionate);
 
-                estraiButton.setDisable(true); // disabilita il pulsante
-
+                estraiButton.setDisable(true);
                 boxImmaginiPersonaggi.getChildren().clear();
+                boxImmaginiPersonaggi.setVisible(true);
 
                 Timeline timeline = new Timeline();
-                boxImmaginiPersonaggi.setVisible(true); // lo riattiviamo
 
                 for (int i = 0; i < risultati.size(); i++) {
                     final int index = i;
@@ -112,44 +130,39 @@ public class TalismanRandomizerFX extends Application {
                             immaginePersonaggio.setFitWidth(200);
                             immaginePersonaggio.setFitHeight(250);
                             immaginePersonaggio.setPreserveRatio(true);
-                            boxImmaginiPersonaggi.getChildren().add(immaginePersonaggio);
+
                             VBox pgBox = new VBox(5);
                             pgBox.setAlignment(Pos.CENTER);
-
-                            // per mettere il nome sotto all'immagine del personaggio
-                            Text nomeTesto = new Text(nome.toUpperCase()); // elevato a uppercase per maggiore leggibilità
-                            nomeTesto.setFill(javafx.scene.paint.Color.web("#ffd966")); // colore del nome
-                            nomeTesto.setFont(Font.font("System", FontWeight.BOLD, 20)); // font del nome
+                            Text nomeTesto = new Text(nome.toUpperCase());
+                            nomeTesto.setFill(javafx.scene.paint.Color.web("#ffd966"));
+                            nomeTesto.setFont(Font.font("System", FontWeight.BOLD, 20));
                             pgBox.getChildren().addAll(immaginePersonaggio, nomeTesto);
                             boxImmaginiPersonaggi.getChildren().add(pgBox);
-
-
                         } else {
                             System.out.println(">> Immagine non trovata per: " + nome);
                         }
-                        // parte il suono quando piazziamo un'immagine
+
                         try {
-                            AudioClip suonoApparizionePersonaggio = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
-                            suonoApparizionePersonaggio.setVolume(0.25);
-                            suonoApparizionePersonaggio.play();
+                            AudioClip suonoApparizione = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
+                            suonoApparizione.setVolume(0.25);
+                            suonoApparizione.play();
                         } catch (Exception ex) {
-                            System.out.println(">> Errore con il suono: " + ex.getMessage());
+                            System.out.println(">> Errore suono: " + ex.getMessage());
                         }
                     });
                     timeline.getKeyFrames().add(keyFrame);
                 }
 
-                // a fine "animazione", parte la musichetta
                 timeline.setOnFinished(finishEvent -> {
                     AudioClip suonoFinale = new AudioClip(getClass().getResource("/suoni/fine.wav").toExternalForm());
                     suonoFinale.setVolume(0.05);
                     suonoFinale.play();
-
                 });
+
                 timeline.play();
 
-            } catch (NumberFormatException ex) {
-                System.out.println(">> Numero giocatori non valido.");
+            } catch (Exception ex) {
+                System.out.println(">> Errore durante l'estrazione: " + ex.getMessage());
             }
         });
 
@@ -157,16 +170,23 @@ public class TalismanRandomizerFX extends Application {
         scroll.setPrefHeight(200);
         scroll.setFitToWidth(true);
 
-
-        // Aggiungi il toggle all'inizio dell'interfaccia
         root.getChildren().addAll(abilitaModalitaScura, label, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
 
         Scene scene = new Scene(root, 1200, 600);
-        scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm()); // crea questo file dopo
+        scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm());
 
         stage.setScene(scene);
         stage.setTitle("Sistema Pseudointelligente di Estrazione Aleatoria Nominativa ad Alta Entropia_v2 (S.P.E.A.N.A.E.)  Made by Vincent");
         stage.show();
+    }
+
+    // la finestra che si aprirà quando l'utente sbaglierà qualcosa
+    private void mostraAvviso(String messaggio) {
+        Alert allerta = new Alert(Alert.AlertType.WARNING);
+        allerta.setTitle("Attenzione");
+        allerta.setHeaderText(null);
+        allerta.setContentText(messaggio);
+        allerta.showAndWait();
     }
 
     public static void main(String[] args) {
