@@ -1,6 +1,7 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
 import javafx.scene.media.AudioClip;
 import javafx.stage.*;
 import javafx.util.*;
@@ -23,18 +25,12 @@ public class TalismanRandomizerFX extends Application {
     private TextField campoNumeroGiocatori;
     private List<CheckBox> caselleDaSpuntare;
 
-    private Label labelNumGiocatori;
-    private Label labelEspansioni;
-    private Label labelLingua;
-    private Button estraiButton;
-    private CheckBox abilitaModalitaScura;
-
     @Override
     public void start(Stage stage) {
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
 
-        abilitaModalitaScura = new CheckBox(Traduttore.tr("dark_mode"));
+        CheckBox abilitaModalitaScura = new CheckBox("Modalità scura");
         abilitaModalitaScura.setOnAction(e -> {
             if (abilitaModalitaScura.isSelected()) {
                 root.getStyleClass().add("dark-mode");
@@ -43,25 +39,11 @@ public class TalismanRandomizerFX extends Application {
             }
         });
 
-        ComboBox<String> linguaBox = new ComboBox<>();
-        linguaBox.getItems().addAll("English", "Italiano");
-        linguaBox.setValue("English");
-
-        linguaBox.setOnAction(e -> {
-            String scelta = linguaBox.getValue();
-            Traduttore.setLingua(scelta.equals("Italiano") ? Traduttore.Lingua.IT : Traduttore.Lingua.EN);
-            aggiornaTesti();
-            stage.setTitle(Traduttore.tr("app_title"));
-        });
-
-        labelLingua = new Label(Traduttore.tr("select_language"));
-        HBox barraSuperiore = new HBox(10);
-        barraSuperiore.setAlignment(Pos.TOP_RIGHT);
-        barraSuperiore.getChildren().addAll(labelLingua, linguaBox);
-
-        labelNumGiocatori = new Label(Traduttore.tr("num_players"));
+        Label label = new Label("Numero di giocatori:");
         campoNumeroGiocatori = new TextField();
         campoNumeroGiocatori.setPromptText("Es. 3");
+
+        // impedisce l'inserimento di caratteri non numerici e oltre 6
         campoNumeroGiocatori.setTextFormatter(new TextFormatter<String>(change -> {
             if (!change.getControlNewText().matches("\\d{0,1}")) {
                 return null;
@@ -69,29 +51,33 @@ public class TalismanRandomizerFX extends Application {
             try {
                 int val = Integer.parseInt(change.getControlNewText());
                 if (val > 6) return null;
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) {
+                // ignora gli errori temporanei mentre si digita
+            }
             return change;
         }));
 
-        labelEspansioni = new Label(Traduttore.tr("select_expansions"));
+        Label labelEspansioni = new Label("Seleziona le espansioni:");
         VBox containerCaselle = new VBox(5);
         containerCaselle.getStyleClass().add("vbox-caselle");
+
 
         Map<String, String> legenda = TalismanLogica.getLegenda();
         caselleDaSpuntare = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : legenda.entrySet()) {
             CheckBox cb = new CheckBox(entry.getValue());
-            cb.setUserData(entry.getKey());
+            cb.setUserData(entry.getKey()); // salva il numero della espansione
             caselleDaSpuntare.add(cb);
             containerCaselle.getChildren().add(cb);
         }
 
-        estraiButton = new Button(Traduttore.tr("extract_characters"));
+        Button estraiButton = new Button("Estrai Personaggi");
         HBox boxImmaginiPersonaggi = new HBox(10);
         boxImmaginiPersonaggi.setAlignment(Pos.CENTER);
         boxImmaginiPersonaggi.setStyle("-fx-background-color: black; -fx-padding: 10px;");
-        boxImmaginiPersonaggi.setVisible(false);
+        boxImmaginiPersonaggi.setVisible(false); // lo nascondiamo, e lo riattiviamo solo quando il giocatore clicca estrai personaggi
+
         estraiButton.setDisable(false);
 
         estraiButton.setOnAction(e -> {
@@ -101,21 +87,22 @@ public class TalismanRandomizerFX extends Application {
             try {
                 numeroGiocatori = Integer.parseInt(testoNumero);
                 if (numeroGiocatori < 1 || numeroGiocatori > 6) {
-                    mostraAvviso(Traduttore.tr("warning_insert_players"));
+                    mostraAvviso("Inserisci un numero di giocatori valido (1-6).");
                     return;
                 }
             } catch (NumberFormatException ex) {
-                mostraAvviso(Traduttore.tr("warning_insert_players"));
+                mostraAvviso("Inserisci un numero di giocatori valido.");
                 return;
             }
 
+            // una lista che conterrà tutte le espansioni che l'utente ha selezionato
             List<String> espansioniSelezionate = caselleDaSpuntare.stream()
                     .filter(CheckBox::isSelected)
                     .map(cb -> (String) cb.getUserData())
                     .collect(Collectors.toList());
 
             if (espansioniSelezionate.isEmpty()) {
-                mostraAvviso(Traduttore.tr("warning_select_expansion"));
+                mostraAvviso("Seleziona almeno un'espansione.");
                 return;
             }
 
@@ -151,6 +138,8 @@ public class TalismanRandomizerFX extends Application {
                             nomeTesto.setFont(Font.font("System", FontWeight.BOLD, 20));
                             pgBox.getChildren().addAll(immaginePersonaggio, nomeTesto);
                             boxImmaginiPersonaggi.getChildren().add(pgBox);
+                        } else {
+                            System.out.println(">> Immagine non trovata per: " + nome);
                         }
 
                         try {
@@ -181,31 +170,23 @@ public class TalismanRandomizerFX extends Application {
         scroll.setPrefHeight(200);
         scroll.setFitToWidth(true);
 
-        root.getChildren().addAll(barraSuperiore, abilitaModalitaScura, labelNumGiocatori, campoNumeroGiocatori,
-                labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
+        root.getChildren().addAll(abilitaModalitaScura, label, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
 
         Scene scene = new Scene(root, 1200, 600);
         scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm());
 
         stage.setScene(scene);
-        stage.setTitle(Traduttore.tr("app_title"));
+        stage.setTitle("Sistema Pseudointelligente di Estrazione Aleatoria Nominativa ad Alta Entropia_v2 (S.P.E.A.N.A.E.)  Made by Vincent");
         stage.show();
     }
 
+    // la finestra che si aprirà quando l'utente sbaglierà qualcosa
     private void mostraAvviso(String messaggio) {
         Alert allerta = new Alert(Alert.AlertType.WARNING);
-        allerta.setTitle(Traduttore.tr("warning_title"));
+        allerta.setTitle("Attenzione");
         allerta.setHeaderText(null);
         allerta.setContentText(messaggio);
         allerta.showAndWait();
-    }
-
-    private void aggiornaTesti() {
-        abilitaModalitaScura.setText(Traduttore.tr("dark_mode"));
-        labelNumGiocatori.setText(Traduttore.tr("num_players"));
-        labelEspansioni.setText(Traduttore.tr("select_expansions"));
-        estraiButton.setText(Traduttore.tr("extract_characters"));
-        labelLingua.setText(Traduttore.tr("select_language"));
     }
 
     public static void main(String[] args) {
