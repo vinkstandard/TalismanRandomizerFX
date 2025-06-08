@@ -86,23 +86,23 @@ public class TalismanLogica {
         return lista.subList(0, Math.min(numGiocatori, lista.size()));
     }
     public static Map<String, String> getLegenda() {
-        Map<String, String> legenda = new LinkedHashMap<>();
-        legenda.put("1", "Classic");
-        legenda.put("2", "Mietitore");
-        legenda.put("3", "Avanzata dei Ghiacci");
-        legenda.put("4", "Dungeon");
-        legenda.put("5", "Lande Montuose");
-        legenda.put("6", "Stagno Sacro");
-        legenda.put("7", "Città");
-        legenda.put("8", "Luna di Sangue");
-        legenda.put("9", "Lande del Fuoco");
-        legenda.put("10", "Il Drago");
-        legenda.put("11", "Il Messaggero");
-        legenda.put("12", "Lande boscose");
-        legenda.put("13", "Il Cataclisma");
-        legenda.put("14", "Regno delle Anime");
-        legenda.put("15", "Le Bestie Antiche");
-        legenda.put("16", "Il Regno Meccanico");
-        return legenda;
+        Map<String, String> legendaIT = new LinkedHashMap<>();
+        legendaIT.put("1", "Classic");
+        legendaIT.put("2", "Mietitore");
+        legendaIT.put("3", "Avanzata dei Ghiacci");
+        legendaIT.put("4", "Dungeon");
+        legendaIT.put("5", "Lande Montuose");
+        legendaIT.put("6", "Stagno Sacro");
+        legendaIT.put("7", "Città");
+        legendaIT.put("8", "Luna di Sangue");
+        legendaIT.put("9", "Lande del Fuoco");
+        legendaIT.put("10", "Il Drago");
+        legendaIT.put("11", "Il Messaggero");
+        legendaIT.put("12", "Lande boscose");
+        legendaIT.put("13", "Il Cataclisma");
+        legendaIT.put("14", "Regno delle Anime");
+        legendaIT.put("15", "Le Bestie Antiche");
+        legendaIT.put("16", "Il Regno Meccanico");
+        return legendaIT;
     }
 }
