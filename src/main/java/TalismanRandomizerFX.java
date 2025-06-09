@@ -17,6 +17,9 @@ import javafx.stage.*;
 import javafx.util.*;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,12 +32,16 @@ public class TalismanRandomizerFX extends Application {
     private Label labelEspansioni;
     private Button estraiButton;
     private CheckBox abilitaModalitaScura;
+    private VBox chat;
+    private ScrollPane scrollChatBox;
+
 
     @Override
     public void start(Stage stage) {
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(20));
+
 
         // menu lingua in alto a destra
         comboLingua = new ComboBox<>();
@@ -115,8 +122,20 @@ public class TalismanRandomizerFX extends Application {
             }
         });
 
+        // Test per chatBox(registro)
+        chat = new VBox(5);
+        chat.setAlignment(Pos.BOTTOM_LEFT);
+        chat.setPadding(new Insets(10));
+        chat.setStyle("-fx-background-color: #222222;");
+        scrollChatBox = new ScrollPane(chat);
+        scrollChatBox.setPrefSize(300, 400);
+        scrollChatBox.setFitToWidth(true);
+        scrollChatBox.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollChatBox.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollChatBox.setStyle("-fx-background-color: black;");
+
         // aggiungo tutto al mainContent
-        mainContent.getChildren().addAll(abilitaModalitaScura, labelNumeroGiocatori, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
+        mainContent.getChildren().addAll(abilitaModalitaScura, labelNumeroGiocatori, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi, chat);
 
         root.setCenter(mainContent);
 
@@ -168,6 +187,8 @@ public class TalismanRandomizerFX extends Application {
 
                 Timeline timeline = new Timeline();
 
+
+
                 for (int i = 0; i < personaggiUsciti.size(); i++) {
                     final int index = i;
                     KeyFrame keyFrame = new KeyFrame(Duration.seconds(1 + i * 1.5), event -> {
@@ -179,6 +200,20 @@ public class TalismanRandomizerFX extends Application {
                         String fileName = nomeTradottoPerURL + ".png";
                         URL imageUrl = getClass().getResource("/immagini/" + fileName);
                         System.out.println("Cerco immagine per: " + fileName + ", imageUrl: " + imageUrl);
+
+                        // test per chatBox
+                        LocalDateTime oraAttuale = LocalDateTime.now();
+                        int ore = oraAttuale.getHour();
+                        int minuti = oraAttuale.getMinute();
+                        int secondi = oraAttuale.getSecond();
+                        String oraFormattata = String.format("%02d:%02d:%02d", ore, minuti, secondi);
+
+                        Text nomePg = new Text( oraFormattata + "| Hai rollato: " + ServizioLingua.getNomeTradotto(nomeTradottoPerURL));
+                        nomePg.setFill(javafx.scene.paint.Color.web("#ffd966"));
+                        nomePg.setFont(Font.font("System", FontWeight.BOLD, 20));
+                        chat.getChildren().addAll(nomePg);
+
+
 
                         if (imageUrl != null) {
                             ImageView immaginePersonaggio = new ImageView(new Image(imageUrl.toExternalForm()));
@@ -228,7 +263,7 @@ public class TalismanRandomizerFX extends Application {
         // aggiorno testi ui all'avvio
         aggiornaTestiUI();
 
-        Scene scene = new Scene(root, 1300, 600);
+        Scene scene = new Scene(root, 1300, 800);
         scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm());
 
         stage.setScene(scene);
