@@ -116,15 +116,7 @@ public class TalismanRandomizerFX extends Application {
         });
 
         // aggiungo tutto al mainContent
-        mainContent.getChildren().addAll(
-                abilitaModalitaScura,
-                labelNumeroGiocatori,
-                campoNumeroGiocatori,
-                labelEspansioni,
-                scroll,
-                estraiButton,
-                boxImmaginiPersonaggi
-        );
+        mainContent.getChildren().addAll(abilitaModalitaScura, labelNumeroGiocatori, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi);
 
         root.setCenter(mainContent);
 
@@ -144,10 +136,7 @@ public class TalismanRandomizerFX extends Application {
                 return;
             }
 
-            List<String> espansioniSelezionate = caselleDaSpuntare.stream()
-                    .filter(CheckBox::isSelected)
-                    .map(cb -> (String) cb.getUserData())
-                    .collect(Collectors.toList());
+            List<String> espansioniSelezionate = caselleDaSpuntare.stream().filter(CheckBox::isSelected).map(cb -> (String) cb.getUserData()).collect(Collectors.toList());
 
             if (espansioniSelezionate.isEmpty()) {
                 mostraAvviso("nessunaEspansione");
