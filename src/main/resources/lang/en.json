@@ -1,0 +1,139 @@
+{
+  "appTitle": "S.P.E.A.N.A.E. - Created by Vincent",
+  "labels": {
+    "numeroGiocatori": "Number of players:",
+    "selezionaEspansioni": "Select expansions:",
+    "modalitaScura": "Dark Mode:"
+  },
+  "buttons": {
+    "estrai": "Draw Characters"
+  },
+  "expansions": {
+    "base": "Classic",
+    "reaper": "The Reaper",
+    "frostmarch": "Frostmarch",
+    "dungeon": "Dungeon",
+    "highland": "Highlands",
+    "sacredpool": "Sacred Pool",
+    "city": "City",
+    "bloodmoon": "Blood Moon",
+    "firelands": "Firelands",
+    "dragon": "Dragon",
+    "harbinger": "Harbinger",
+    "woodlands": "Woodlands",
+    "cataclysm": "Cataclysm",
+    "netherrealm": "Netherrealm",
+    "ancientbeasts": "Ancient Beasts",
+    "clockwork": "Clockwork Realm"
+  },
+  "characters": {
+    "base": {
+      "Assassino": "Assassin",
+      "Druido": "Druid",
+      "Nano": "Dwarf",
+      "Elfo": "Elf",
+      "Ghoul": "Ghoul",
+      "Menestrello": "Minstrel",
+      "Monaco": "Monk",
+      "Prete": "Priest",
+      "Profetessa": "Prophetess",
+      "Incantatrice": "Enchantress",
+      "Ladro": "Thief",
+      "Troll": "Troll",
+      "Guerriero": "Warrior",
+      "Mago": "Wizard"
+    },
+    "reaper": {
+      "Cultista Oscura": "Dark Cultist",
+      "Cavaliere": "Knight",
+      "Mercante": "Merchant",
+      "Saggio": "Sage"
+    },
+    "frostmarch": {
+      "Leprecano": "Leprechaun",
+      "Negromante": "Necromancer",
+      "Capitano Ogre": "Ogre Captain",
+      "Stregone": "Sorcerer"
+    },
+    "dungeon": {
+      "Amazzone": "Amazon",
+      "Gladiatore": "Gladiator",
+      "Zingara": "Gypsy",
+      "Filosofo": "Philosopher",
+      "Spadaccino": "Swordsman"
+    },
+    "highland": {
+      "Spiritello": "Sprite",
+      "Ladra": "Thief (female)",
+      "Immortale": "Immortal",
+      "Alchimista": "Alchemist",
+      "Valchiria": "Valkyrie",
+      "Vampiressa": "Vampiress"
+    },
+    "sacredpool": {
+      "Cavaliere Errante": "Wandering Knight",
+      "Sacerdotessa": "Priestess",
+      "Cavaliere del Terrore": "Knight of Terror",
+      "Magus": "Magus"
+    },
+    "city": {
+      "Riparatore": "Repairman",
+      "Spia": "Spy",
+      "Cacciatore di Taglie": "Bounty Hunter",
+      "Elementalista": "Elementalist",
+      "Locandiera": "Innkeeper",
+      "Ladra Acrobata": "Acrobat Thief"
+    },
+    "bloodmoon": {
+      "Profeta di Sventura": "Prophet of Doom",
+      "Tombarolo": "Gravedigger",
+      "Cacciatrice di Vampiri": "Vampire Hunter"
+    },
+    "firelands": {
+      "Derviscio": "Dervish",
+      "Signore della Guerra": "Warlord",
+      "Nomade": "Nomad",
+      "Genio Mezzosangue": "Half-blood Genius"
+    },
+    "dragon": {
+      "Minotauro": "Minotaur",
+      "Cacciatore di Draghi": "Dragon Hunter",
+      "Mago del Fuoco": "Fire Mage",
+      "Prestigiatrice": "Prestidigitator",
+      "Sacerdotessa dei Draghi": "Dragon Priestess",
+      "Cavalcatrice di Draghi": "Dragon Rider (female)"
+    },
+    "harbinger": {
+      "Divina Ascendente": "Ascending Divine",
+      "Celestiale": "Celestial",
+      "Posseduto": "Possessed"
+    },
+    "woodlands": {
+      "Antica Quercia": "Ancient Oak",
+      "Guerriero Totem": "Totem Warrior",
+      "Viandante Sincronico": "Synchronic Wanderer",
+      "Regina dei Ragni": "Spider Queen"
+    },
+    "cataclysm": {
+      "Discendente Arcano": "Arcane Descendant",
+      "Barbaro": "Barbarian",
+      "Cavaliere Nero": "Black Knight",
+      "Mutante": "Mutant",
+      "Raccoglitrice": "Gatherer"
+    },
+    "netherrealm": {
+      "Arconte": "Archon",
+      "Chiaroveggente": "Seer",
+      "Collezionista di Spettri": "Specter Collector"
+    },
+    "ancientbeasts": {
+      "Cacciatore di Trofei": "Trophy Hunter",
+      "Specialista": "Specialist"
+    },
+    "clockwork": {
+      "Artificiere": "Artificer",
+      "Ingegnere": "Engineer",
+      "Ingannatore": "Trickster"
+    }
+  }
+}
