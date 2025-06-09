@@ -1,0 +1,140 @@
+{
+  "appTitle": "S.P.E.A.N.A.E. - Creato da Vincent",
+  "labels": {
+    "numeroGiocatori": "Numero di giocatori:",
+    "selezionaEspansioni": "Seleziona le espansioni:",
+    "modalitaScura": "Modalità Scura:"
+
+  },
+  "buttons": {
+    "estrai": "Estrai Personaggi"
+  },
+  "expansions": {
+    "base": "Classico",
+    "reaper": "Il Mietitore",
+    "frostmarch": "L'Avanzata dei Ghiacci",
+    "dungeon": "Dungeon",
+    "highland": "Lande Montuose",
+    "sacredpool": "Lo Stagno Sacro",
+    "city": "La città",
+    "bloodmoon": "Luna di sangue",
+    "firelands": "Regno del fuoco",
+    "dragon": "Il drago",
+    "harbinger": "Messaggero",
+    "woodlands": "Terre Boscose",
+    "cataclysm": "Cataclisma",
+    "netherrealm": "Regno delle anime",
+    "ancientbeasts": "Bestie antiche",
+    "clockwork": "Regno meccanico"
+  },
+  "characters": {
+    "base": {
+      "Assassino": "Assassino",
+      "Druido": "Druido",
+      "Nano": "Nano",
+      "Elfo": "Elfo",
+      "Ghoul": "Ghoul",
+      "Menestrello": "Menestrello",
+      "Monaco": "Monaco",
+      "Prete": "Prete",
+      "Profetessa": "Profetessa",
+      "Incantatrice": "Incantatrice",
+      "Ladro": "Ladro",
+      "Troll": "Troll",
+      "Guerriero": "Guerriero",
+      "Mago": "Mago"
+    },
+    "reaper": {
+      "Cultista Oscura": "Cultista Oscura",
+      "Cavaliere": "Cavaliere",
+      "Mercante": "Mercante",
+      "Saggio": "Saggio"
+    },
+    "frostmarch": {
+      "Leprecano": "Leprecano",
+      "Negromante": "Negromante",
+      "Capitano Ogre": "Capitano Ogre",
+      "Stregone": "Stregone"
+    },
+    "dungeon": {
+      "Amazzone": "Amazzone",
+      "Gladiatore": "Gladiatore",
+      "Zingara": "Zingara",
+      "Filosofo": "Filosofo",
+      "Spadaccino": "Spadaccino"
+    },
+    "highland": {
+      "Spiritello": "Spiritello",
+      "Ladra": "Ladra",
+      "Immortale": "Immortale",
+      "Alchimista": "Alchimista",
+      "Valchiria": "Valchiria",
+      "Vampiressa": "Vampiressa"
+    },
+    "sacredpool": {
+      "Cavaliere Errante": "Cavaliere Errante",
+      "Sacerdotessa": "Sacerdotessa",
+      "Cavaliere del Terrore": "Cavaliere del Terrore",
+      "Magus": "Magus"
+    },
+    "city": {
+      "Riparatore": "Riparatore",
+      "Spia": "Spia",
+      "Cacciatore di Taglie": "Cacciatore di Taglie",
+      "Elementalista": "Elementalista",
+      "Locandiera": "Locandiera",
+      "Ladra Acrobata": "Ladra Acrobata"
+    },
+    "bloodmoon": {
+      "Profeta di Sventura": "Profeta di Sventura",
+      "Tombarolo": "Tombarolo",
+      "Cacciatrice di Vampiri": "Cacciatrice di Vampiri"
+    },
+    "firelands": {
+      "Derviscio": "Derviscio",
+      "Signore della Guerra": "Signore della Guerra",
+      "Nomade": "Nomade",
+      "Genio Mezzosangue": "Genio Mezzosangue"
+    },
+    "dragon": {
+      "Minotauro": "Minotauro",
+      "Cacciatore di Draghi": "Cacciatore di Draghi",
+      "Mago del Fuoco": "Mago del Fuoco",
+      "Prestigiatrice": "Prestigiatrice",
+      "Sacerdotessa dei Draghi": "Sacerdotessa dei Draghi",
+      "Cavalcatrice di Draghi": "Cavalcatrice di Draghi"
+    },
+    "harbinger": {
+      "Divina Ascendente": "Divina Ascendente",
+      "Celestiale": "Celestiale",
+      "Posseduto": "Posseduto"
+    },
+    "woodlands": {
+      "Antica Quercia": "Antica Quercia",
+      "Guerriero Totem": "Guerriero Totem",
+      "Viandante Sincronico": "Viandante Sincronico",
+      "Regina dei Ragni": "Regina dei Ragni"
+    },
+    "cataclysm": {
+      "Discendente Arcano": "Discendente Arcano",
+      "Barbaro": "Barbaro",
+      "Cavaliere Nero": "Cavaliere Nero",
+      "Mutante": "Mutante",
+      "Raccoglitrice": "Raccoglitrice"
+    },
+    "netherrealm": {
+      "Arconte": "Arconte",
+      "Chiaroveggente": "Chiaroveggente",
+      "Collezionista di Spettri": "Collezionista di Spettri"
+    },
+    "ancientbeasts": {
+      "Cacciatore di Trofei": "Cacciatore di Trofei",
+      "Specialista": "Specialista"
+    },
+    "clockwork": {
+      "Artificiere": "Artificiere",
+      "Ingegnere": "Ingegnere",
+      "Ingannatore": "Ingannatore"
+    }
+  }
+}
