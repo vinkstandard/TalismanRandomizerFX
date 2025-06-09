@@ -192,8 +192,6 @@ public class TalismanRandomizerFX extends Application {
 
                 Timeline timeline = new Timeline();
 
-
-
                 for (int i = 0; i < personaggiUsciti.size(); i++) {
                     final int index = i;
                     KeyFrame keyFrame = new KeyFrame(Duration.seconds(1 + i * 1.5), event -> {
@@ -218,8 +216,6 @@ public class TalismanRandomizerFX extends Application {
                         nomePg.setFill(javafx.scene.paint.Color.web("#ffd966"));
                         nomePg.setFont(Font.font("System", FontWeight.BOLD, 20));
                         chat.getChildren().addAll(nomePg);
-
-
 
                         if (imageUrl != null) {
                             ImageView immaginePersonaggio = new ImageView(new Image(imageUrl.toExternalForm()));
@@ -292,8 +288,7 @@ public class TalismanRandomizerFX extends Application {
         abilitaModalitaScura.setText(ServizioLingua.get("labels", "modalitaScura"));
         labelHaiRollato.setText(""); // lo cleanniamo dopo averlo usato
 
-
-        // Aggiorna testo checkbox espansioni
+        // aggiorno testo checkbox espansioni
         Map<String, String> legenda = ServizioLingua.getEspansioni();
         for (CheckBox cb : caselleDaSpuntare) {
             String key = (String) cb.getUserData();
