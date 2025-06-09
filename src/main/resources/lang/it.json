@@ -3,11 +3,17 @@
   "labels": {
     "numeroGiocatori": "Numero di giocatori:",
     "selezionaEspansioni": "Seleziona le espansioni:",
-    "modalitaScura": "Modalità Scura:"
-
+    "modalitaScura": "Modalità Scura"
   },
   "buttons": {
     "estrai": "Estrai Personaggi"
+  },
+  "warnings":{
+    "titolo": "Attenzione",
+    "numeroGiocatoriNonValido": "Inserisci un numero di giocatori valido (1-6).",
+    "numeroNonValido": "Inserisci un numero di giocatori valido.",
+    "nessunaEspansione": "Seleziona almeno un'espansione.",
+    "personaggiInsufficienti": "Non ci sono abbastanza personaggi per il numero di giocatori selezionato."
   },
   "expansions": {
     "base": "Classico",

@@ -3,10 +3,17 @@
   "labels": {
     "numeroGiocatori": "Number of players:",
     "selezionaEspansioni": "Select expansions:",
-    "modalitaScura": "Dark Mode:"
+    "modalitaScura": "Dark Mode"
   },
   "buttons": {
     "estrai": "Draw Characters"
+  },
+  "warnings": {
+    "titolo": "Warning",
+    "numeroGiocatoriNonValido": "Please enter a valid number of players (1-6).",
+    "numeroNonValido": "Please enter a valid number of players.",
+    "nessunaEspansione": "Please select at least one expansion.",
+    "personaggiInsufficienti": "Not enough characters for the selected number of players."
   },
   "expansions": {
     "base": "Classic",
