@@ -3,7 +3,8 @@
   "labels": {
     "numeroGiocatori": "Numero di giocatori:",
     "selezionaEspansioni": "Seleziona le espansioni:",
-    "modalitaScura": "Modalità Scura"
+    "modalitaScura": "Tema scuro",
+    "haiRollato" : "Hai rollato: "
   },
   "buttons": {
     "estrai": "Estrai Personaggi"

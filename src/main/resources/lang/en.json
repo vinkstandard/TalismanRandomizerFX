@@ -3,7 +3,8 @@
   "labels": {
     "numeroGiocatori": "Number of players:",
     "selezionaEspansioni": "Select expansions:",
-    "modalitaScura": "Dark Mode"
+    "modalitaScura": "Dark Theme",
+    "haiRollato" : "You rolled: "
   },
   "buttons": {
     "estrai": "Draw Characters"
