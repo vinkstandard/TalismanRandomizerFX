@@ -34,6 +34,7 @@ public class TalismanRandomizerFX extends Application {
     private CheckBox abilitaModalitaScura;
     private VBox chat;
     private ScrollPane scrollChatBox;
+    private Label labelHaiRollato;
 
 
     @Override
@@ -80,6 +81,10 @@ public class TalismanRandomizerFX extends Application {
 
         // label espansioni
         labelEspansioni = new Label();
+
+        // label roll
+        labelHaiRollato = new Label();
+        labelHaiRollato.setVisible(false); // inizialmente non vogliamo vederlo
 
         // checkbox espansioni dentro uno scroll
         VBox containerCaselle = new VBox(5);
@@ -135,7 +140,7 @@ public class TalismanRandomizerFX extends Application {
         scrollChatBox.setStyle("-fx-background-color: black;");
 
         // aggiungo tutto al mainContent
-        mainContent.getChildren().addAll(abilitaModalitaScura, labelNumeroGiocatori, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi, chat);
+        mainContent.getChildren().addAll(abilitaModalitaScura, labelNumeroGiocatori, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi, chat, labelHaiRollato);
 
         root.setCenter(mainContent);
 
@@ -202,13 +207,14 @@ public class TalismanRandomizerFX extends Application {
                         System.out.println("Cerco immagine per: " + fileName + ", imageUrl: " + imageUrl);
 
                         // test per chatBox
+                        labelHaiRollato.setVisible(true);
                         LocalDateTime oraAttuale = LocalDateTime.now();
                         int ore = oraAttuale.getHour();
                         int minuti = oraAttuale.getMinute();
                         int secondi = oraAttuale.getSecond();
                         String oraFormattata = String.format("%02d:%02d:%02d", ore, minuti, secondi);
 
-                        Text nomePg = new Text( oraFormattata + "| Hai rollato: " + ServizioLingua.getNomeTradotto(nomeTradottoPerURL));
+                        Text nomePg = new Text(oraFormattata + "| " + ServizioLingua.get("labels", "haiRollato") + " " + ServizioLingua.getNomeTradotto(nomeTradottoPerURL));
                         nomePg.setFill(javafx.scene.paint.Color.web("#ffd966"));
                         nomePg.setFont(Font.font("System", FontWeight.BOLD, 20));
                         chat.getChildren().addAll(nomePg);
@@ -284,6 +290,7 @@ public class TalismanRandomizerFX extends Application {
         labelEspansioni.setText(ServizioLingua.get("labels", "selezionaEspansioni"));
         estraiButton.setText(ServizioLingua.get("buttons", "estrai"));
         abilitaModalitaScura.setText(ServizioLingua.get("labels", "modalitaScura"));
+        labelHaiRollato.setText(""); // lo cleanniamo dopo averlo usato
 
 
         // Aggiorna testo checkbox espansioni
