@@ -17,9 +17,7 @@ import javafx.stage.*;
 import javafx.util.*;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -206,18 +204,13 @@ public class TalismanRandomizerFX extends Application {
                 return;
             }
 
-            List<String> espansioniSelezionate = caselleDaSpuntare.stream().filter(CheckBox::isSelected).map(cb -> (String) cb.getUserData()).collect(Collectors.toList());
-
+            List<String> espansioniSelezionate = caselleDaSpuntare.stream().filter(CheckBox::isSelected).map(cb -> (String) cb.getUserData()).toList();
             if (espansioniSelezionate.isEmpty()) {
                 mostraAvviso("nessunaEspansione");
                 return;
             }
 
             try {
-                AudioClip suonoInizio = new AudioClip(getClass().getResource("/suoni/inizio.wav").toExternalForm());
-                suonoInizio.setVolume(0.1);
-                suonoInizio.play();
-
                 List<String> poolPersonaggi = new ArrayList<>();
                 for (String espansioneSelezionata : espansioniSelezionate) {
                     poolPersonaggi.addAll(ServizioLingua.getPersonaggiDaEspansione(espansioneSelezionata));
@@ -227,6 +220,9 @@ public class TalismanRandomizerFX extends Application {
                     mostraAvviso("personaggiInsufficienti");
                     return;
                 }
+                AudioClip suonoInizio = new AudioClip(getClass().getResource("/suoni/inizio.wav").toExternalForm());
+                suonoInizio.setVolume(0.1);
+                suonoInizio.play();
 
                 Collections.shuffle(poolPersonaggi);
 
