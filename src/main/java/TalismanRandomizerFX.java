@@ -38,13 +38,11 @@ public class TalismanRandomizerFX extends Application {
     private ScrollPane scrollChatBox;
     private Label labelHaiRollato;
 
-
     @Override
     public void start(Stage stage) {
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(20));
-
 
         // menu lingua in alto a destra
         comboLingua = new ComboBox<>();
@@ -138,10 +136,9 @@ public class TalismanRandomizerFX extends Application {
             }
         }
 
-
-
         // bottone estrai
         estraiButton = new Button();
+        estraiButton.getStyleClass().add("colori-pulsanti");
 
         // box immagini personaggi
         HBox boxImmaginiPersonaggi = new HBox(10);
@@ -151,8 +148,7 @@ public class TalismanRandomizerFX extends Application {
         boxImmaginiPersonaggi.setManaged(false);
 
 
-
-        // Test per chatBox(registro)
+        // test per chatBox(registro)
         chat = new VBox(5);
         chat.setAlignment(Pos.BOTTOM_LEFT);
         chat.setPadding(new Insets(10));
@@ -184,7 +180,7 @@ public class TalismanRandomizerFX extends Application {
         boxCentratoEspansioni.setAlignment(Pos.CENTER);
 
         // aggiungo tutto al mainContent
-        mainContent.getChildren().addAll(boxNumeroGiocatori,boxCentratoEspansioni, espansioniEBottoneCentro, boxImmaginiPersonaggi, scrollChatBox, labelHaiRollato);
+        mainContent.getChildren().addAll(boxNumeroGiocatori, boxCentratoEspansioni, espansioniEBottoneCentro, boxImmaginiPersonaggi, scrollChatBox, labelHaiRollato);
 
         root.setCenter(mainContent);
 
@@ -312,11 +308,12 @@ public class TalismanRandomizerFX extends Application {
         // aggiorno testi ui all'avvio
         aggiornaTestiUI();
 
-        Scene scene = new Scene(root, 1300, 850);
+        Scene scene = new Scene(root, 1350, 850);
         scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm());
 
         stage.setScene(scene);
         stage.setTitle("Talisman Randomizer  Made by Vincent");
+        stage.setResizable(false); // l'utente non potrà ingrandire/diminuire la grandezza della finestra
         stage.show();
     }
 
