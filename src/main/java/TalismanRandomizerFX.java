@@ -68,6 +68,7 @@ public class TalismanRandomizerFX extends Application {
             }
         });
 
+        // topbar, contenente il checkbox della modalità scura, e la ComboBox delle lingue
         HBox topBar = new HBox(10);
         topBar.setAlignment(Pos.CENTER_RIGHT);
         topBar.setPadding(new Insets(10));
@@ -82,6 +83,14 @@ public class TalismanRandomizerFX extends Application {
         labelNumeroGiocatori = new Label();
         campoNumeroGiocatori = new TextField();
         campoNumeroGiocatori.setPromptText("Es. 3");
+        campoNumeroGiocatori.getStyleClass().add("grid-caselle");
+        campoNumeroGiocatori.setAlignment(Pos.CENTER);
+
+        campoNumeroGiocatori.setMaxWidth(100);
+        labelNumeroGiocatori.setAlignment(Pos.CENTER);
+
+        VBox boxNumeroGiocatori = new VBox(5, labelNumeroGiocatori, campoNumeroGiocatori);
+        boxNumeroGiocatori.setAlignment(Pos.CENTER);
 
         // limita input numerico da 1 a 6
         campoNumeroGiocatori.setTextFormatter(new TextFormatter<String>(change -> {
@@ -155,7 +164,15 @@ public class TalismanRandomizerFX extends Application {
         scrollChatBox.setFitToWidth(true);
         scrollChatBox.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollChatBox.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollChatBox.setStyle("-fx-background-color: black;");
+
+
+        scrollChatBox.setStyle(
+                "-fx-background-color: #222222;" +
+                        "-fx-background-insets: 0;" +
+                        "-fx-padding: 0;"
+        );
+        scrollChatBox.setContent(chat);
+
         scrollChatBox.setVisible(false);
         scrollChatBox.setManaged(false);
 
@@ -169,8 +186,7 @@ public class TalismanRandomizerFX extends Application {
         boxCentratoEspansioni.setAlignment(Pos.CENTER);
 
         // aggiungo tutto al mainContent
-        mainContent.getChildren().addAll(labelNumeroGiocatori, campoNumeroGiocatori,
-                boxCentratoEspansioni, espansioniEBottoneCentro, boxImmaginiPersonaggi, scrollChatBox, labelHaiRollato);
+        mainContent.getChildren().addAll(boxNumeroGiocatori,boxCentratoEspansioni, espansioniEBottoneCentro, boxImmaginiPersonaggi, scrollChatBox, labelHaiRollato);
 
         root.setCenter(mainContent);
 
@@ -223,6 +239,7 @@ public class TalismanRandomizerFX extends Application {
 
                 scrollChatBox.setVisible(true);
                 scrollChatBox.setManaged(true);
+
                 Timeline timeline = new Timeline();
 
                 for (int i = 0; i < personaggiUsciti.size(); i++) {
