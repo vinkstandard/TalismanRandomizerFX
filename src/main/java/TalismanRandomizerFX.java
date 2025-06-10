@@ -25,6 +25,10 @@ import java.util.stream.Collectors;
 
 public class TalismanRandomizerFX extends Application {
 
+    // TODO: modifica background chatbox, rendilo già colorato invece di aspettare che si popoli per colorarlo
+    //  cerca colori interessanti?
+    //  aggiungi i bordi ai pulsanti e alla sezione numeroEspansioni come hai fatto nella box della selezione espansione
+    //  rendi la finestra non scalabile
     private TextField campoNumeroGiocatori;
     private List<CheckBox> caselleDaSpuntare;
     private ComboBox<String> comboLingua;
@@ -54,8 +58,22 @@ public class TalismanRandomizerFX extends Application {
             aggiornaTestiUI();
         });
 
-        HBox topBar = new HBox(comboLingua);
-        topBar.setAlignment(Pos.TOP_RIGHT);
+        // checkbox modalità scura
+        abilitaModalitaScura = new CheckBox();
+        abilitaModalitaScura.setOnAction(e -> {
+            if (abilitaModalitaScura.isSelected()) {
+                root.getStyleClass().add("dark-mode");
+            } else {
+                root.getStyleClass().remove("dark-mode");
+            }
+        });
+
+        HBox topBar = new HBox(10);
+        topBar.setAlignment(Pos.CENTER_RIGHT);
+        topBar.setPadding(new Insets(10));
+        comboLingua.setPrefHeight(25);
+        abilitaModalitaScura.setPrefHeight(25);
+        topBar.getChildren().addAll(abilitaModalitaScura, comboLingua);
         root.setTop(topBar);
 
         VBox mainContent = new VBox(10);
@@ -86,9 +104,11 @@ public class TalismanRandomizerFX extends Application {
         labelHaiRollato = new Label();
         labelHaiRollato.setVisible(false); // inizialmente non vogliamo vederlo
 
-        // checkbox espansioni dentro uno scroll
-        VBox containerCaselle = new VBox(5);
-        containerCaselle.getStyleClass().add("vbox-caselle");
+        GridPane containerCaselle = new GridPane();
+        containerCaselle.setHgap(20);  // spazio orizzontale tra le caselle
+        containerCaselle.setVgap(10);  // spazio verticale tra righe
+        containerCaselle.setPadding(new Insets(10));
+        containerCaselle.getStyleClass().add("grid-caselle");
 
         // carica lingua di default
         ServizioLingua.caricaLingua("en");
@@ -96,17 +116,22 @@ public class TalismanRandomizerFX extends Application {
         // legenda espansioni (chiave -> nome tradotto)
         Map<String, String> legenda = ServizioLingua.getEspansioni();
         caselleDaSpuntare = new ArrayList<>();
-
+        int colonne = 5;
+        int row = 0, col = 0;
         for (Map.Entry<String, String> entry : legenda.entrySet()) {
             CheckBox cb = new CheckBox(entry.getValue());
             cb.setUserData(entry.getKey());
             caselleDaSpuntare.add(cb);
-            containerCaselle.getChildren().add(cb);
+            containerCaselle.add(cb, col, row);
+
+            col++;
+            if (col == colonne) {
+                col = 0;
+                row++;
+            }
         }
 
-        ScrollPane scroll = new ScrollPane(containerCaselle);
-        scroll.setPrefHeight(200);
-        scroll.setFitToWidth(true);
+
 
         // bottone estrai
         estraiButton = new Button();
@@ -116,16 +141,9 @@ public class TalismanRandomizerFX extends Application {
         boxImmaginiPersonaggi.setAlignment(Pos.CENTER);
         boxImmaginiPersonaggi.setStyle("-fx-background-color: black; -fx-padding: 10px;");
         boxImmaginiPersonaggi.setVisible(false);
+        boxImmaginiPersonaggi.setManaged(false);
 
-        // checkbox modalità scura
-        abilitaModalitaScura = new CheckBox();
-        abilitaModalitaScura.setOnAction(e -> {
-            if (abilitaModalitaScura.isSelected()) {
-                root.getStyleClass().add("dark-mode");
-            } else {
-                root.getStyleClass().remove("dark-mode");
-            }
-        });
+
 
         // Test per chatBox(registro)
         chat = new VBox(5);
@@ -138,9 +156,21 @@ public class TalismanRandomizerFX extends Application {
         scrollChatBox.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollChatBox.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollChatBox.setStyle("-fx-background-color: black;");
+        scrollChatBox.setVisible(false);
+        scrollChatBox.setManaged(false);
+
+        // centralizzo le caselle delle espansioni e il pulsante
+        HBox caselleWrappate = new HBox(containerCaselle);
+        caselleWrappate.setAlignment(Pos.CENTER);
+        VBox espansioniEBottoneCentro = new VBox(10, caselleWrappate, estraiButton);
+        espansioniEBottoneCentro.setAlignment(Pos.CENTER);
+
+        HBox boxCentratoEspansioni = new HBox(labelEspansioni);
+        boxCentratoEspansioni.setAlignment(Pos.CENTER);
 
         // aggiungo tutto al mainContent
-        mainContent.getChildren().addAll(abilitaModalitaScura, labelNumeroGiocatori, campoNumeroGiocatori, labelEspansioni, scroll, estraiButton, boxImmaginiPersonaggi, chat, labelHaiRollato);
+        mainContent.getChildren().addAll(labelNumeroGiocatori, campoNumeroGiocatori,
+                boxCentratoEspansioni, espansioniEBottoneCentro, boxImmaginiPersonaggi, scrollChatBox, labelHaiRollato);
 
         root.setCenter(mainContent);
 
@@ -189,7 +219,10 @@ public class TalismanRandomizerFX extends Application {
                 estraiButton.setDisable(true);
                 boxImmaginiPersonaggi.getChildren().clear();
                 boxImmaginiPersonaggi.setVisible(true);
+                boxImmaginiPersonaggi.setManaged(true);
 
+                scrollChatBox.setVisible(true);
+                scrollChatBox.setManaged(true);
                 Timeline timeline = new Timeline();
 
                 for (int i = 0; i < personaggiUsciti.size(); i++) {
@@ -248,6 +281,7 @@ public class TalismanRandomizerFX extends Application {
                     });
                     timeline.getKeyFrames().add(keyFrame);
                 }
+                comboLingua.setVisible(false); // rimuoviamo l'opzione di cambiare lingua dopo i roll
 
                 timeline.setOnFinished(finishEvent -> {
                     AudioClip suonoFinale = new AudioClip(getClass().getResource("/suoni/fine.wav").toExternalForm());
@@ -265,11 +299,11 @@ public class TalismanRandomizerFX extends Application {
         // aggiorno testi ui all'avvio
         aggiornaTestiUI();
 
-        Scene scene = new Scene(root, 1300, 800);
+        Scene scene = new Scene(root, 1300, 850);
         scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm());
 
         stage.setScene(scene);
-        stage.setTitle("Sistema Pseudointelligente di Estrazione Aleatoria Nominativa ad Alta Entropia_v2 (S.P.E.A.N.A.E.)  Made by Vincent");
+        stage.setTitle("Talisman Randomizer  Made by Vincent");
         stage.show();
     }
 
