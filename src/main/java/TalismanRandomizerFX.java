@@ -22,11 +22,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class TalismanRandomizerFX extends Application {
-
-    // TODO: modifica background chatbox, rendilo già colorato invece di aspettare che si popoli per colorarlo
-    //  cerca colori interessanti?
-    //  aggiungi i bordi ai pulsanti e alla sezione numeroEspansioni come hai fatto nella box della selezione espansione
-    //  rendi la finestra non scalabile
     private TextField campoNumeroGiocatori;
     private List<CheckBox> caselleDaSpuntare;
     private ComboBox<String> comboLingua;
@@ -308,7 +303,7 @@ public class TalismanRandomizerFX extends Application {
         // aggiorno testi ui all'avvio
         aggiornaTestiUI();
 
-        Scene scene = new Scene(root, 1350, 850);
+        Scene scene = new Scene(root, 1400, 850);
         scene.getStylesheets().add(getClass().getResource("/stili/style.css").toExternalForm());
 
         stage.setScene(scene);
