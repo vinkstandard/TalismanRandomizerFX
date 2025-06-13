@@ -19,7 +19,6 @@ import javafx.util.*;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TalismanRandomizerFX extends Application {
     private TextField campoNumeroGiocatori;
@@ -142,7 +141,6 @@ public class TalismanRandomizerFX extends Application {
         boxImmaginiPersonaggi.setVisible(false);
         boxImmaginiPersonaggi.setManaged(false);
 
-
         // test per chatBox(registro)
         chat = new VBox(5);
         chat.setAlignment(Pos.BOTTOM_LEFT);
@@ -154,14 +152,12 @@ public class TalismanRandomizerFX extends Application {
         scrollChatBox.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollChatBox.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-
         scrollChatBox.setStyle(
                 "-fx-background-color: #222222;" +
                         "-fx-background-insets: 0;" +
                         "-fx-padding: 0;"
         );
         scrollChatBox.setContent(chat);
-
         scrollChatBox.setVisible(false);
         scrollChatBox.setManaged(false);
 
@@ -274,7 +270,6 @@ public class TalismanRandomizerFX extends Application {
                         } else {
                             System.out.println(">> Immagine non trovata per: " + nome);
                         }
-
                         try {
                             AudioClip suonoApparizione = new AudioClip(getClass().getResource("/suoni/character_selected.wav").toExternalForm());
                             suonoApparizione.setVolume(0.25);
