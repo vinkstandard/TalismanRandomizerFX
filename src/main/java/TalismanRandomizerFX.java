@@ -233,7 +233,7 @@ public class TalismanRandomizerFX extends Application {
                         String nomeTradottoPerURL = ServizioLingua.getNomeOriginalePersonaggio(nome);
                         System.out.println("Nome TRADOTTO URL: " + nomeTradottoPerURL);
 
-                        String fileName = nomeTradottoPerURL + ".png";
+                        String fileName = nomeTradottoPerURL.toLowerCase() + ".png";
                         URL imageUrl = getClass().getResource("/immagini/" + fileName);
                         System.out.println("Cerco immagine per: " + fileName + ", imageUrl: " + imageUrl);
 
@@ -303,7 +303,7 @@ public class TalismanRandomizerFX extends Application {
 
         stage.setScene(scene);
         stage.setTitle("Talisman Randomizer  Made by Vincent");
-        stage.setResizable(false); // l'utente non potrà ingrandire/diminuire la grandezza della finestra
+//        stage.setResizable(false); // l'utente non potrà ingrandire/diminuire la grandezza della finestra
         stage.show();
     }
 
