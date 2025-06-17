@@ -4,7 +4,8 @@
     "numeroGiocatori": "Numero di giocatori:",
     "selezionaEspansioni": "Seleziona le espansioni:",
     "modalitaScura": "Tema scuro",
-    "haiRollato" : "Hai rollato: "
+    "haiRollato" : "Hai rollato: ",
+    "abilitaBan" : "Abilita ban"
   },
   "buttons": {
     "estrai": "Estrai Personaggi"
