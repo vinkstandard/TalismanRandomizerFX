@@ -4,7 +4,9 @@
     "numeroGiocatori": "Number of players:",
     "selezionaEspansioni": "Select expansions:",
     "modalitaScura": "Dark Theme",
-    "haiRollato" : "You rolled: "
+    "haiRollato" : "You rolled: ",
+    "abilitaBan" : "Enable bans"
+
   },
   "buttons": {
     "estrai": "Draw Characters"
