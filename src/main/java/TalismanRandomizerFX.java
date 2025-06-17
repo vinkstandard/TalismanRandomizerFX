@@ -38,6 +38,10 @@ public class TalismanRandomizerFX extends Application {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(20));
 
+        // testing del nuovo branch
+
+
+
         // menu lingua in alto a destra
         comboLingua = new ComboBox<>();
         comboLingua.getItems().addAll(ServizioLingua.getLingueDisponibili());
