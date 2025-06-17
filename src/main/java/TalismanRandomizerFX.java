@@ -26,11 +26,14 @@ public class TalismanRandomizerFX extends Application {
     private ComboBox<String> comboLingua;
     private Label labelNumeroGiocatori;
     private Label labelEspansioni;
+    private Label labelAbilitaBan;
     private Button estraiButton;
     private CheckBox abilitaModalitaScura;
     private VBox chat;
     private ScrollPane scrollChatBox;
     private Label labelHaiRollato;
+    private CheckBox abilitaBan;
+    private boolean banAbilitati;
 
     @Override
     public void start(Stage stage) {
@@ -73,17 +76,24 @@ public class TalismanRandomizerFX extends Application {
 
         VBox mainContent = new VBox(10);
 
-        // label e campo numero giocatori
+        // label, campo numero giocatori e checkbox dei ban
         labelNumeroGiocatori = new Label();
+        labelAbilitaBan = new Label();
         campoNumeroGiocatori = new TextField();
         campoNumeroGiocatori.setPromptText("Es. 3");
         campoNumeroGiocatori.getStyleClass().add("grid-caselle");
         campoNumeroGiocatori.setAlignment(Pos.CENTER);
 
+        abilitaBan = new CheckBox();
+        abilitaBan.setOnAction(e ->{
+            banAbilitati = abilitaBan.isSelected();
+        });
+        abilitaBan.setPrefHeight(25);
+
         campoNumeroGiocatori.setMaxWidth(100);
         labelNumeroGiocatori.setAlignment(Pos.CENTER);
 
-        VBox boxNumeroGiocatori = new VBox(5, labelNumeroGiocatori, campoNumeroGiocatori);
+        VBox boxNumeroGiocatori = new VBox(5,labelAbilitaBan, abilitaBan, labelNumeroGiocatori, campoNumeroGiocatori);
         boxNumeroGiocatori.setAlignment(Pos.CENTER);
 
         // limita input numerico da 1 a 6
@@ -175,7 +185,9 @@ public class TalismanRandomizerFX extends Application {
         boxCentratoEspansioni.setAlignment(Pos.CENTER);
 
         // aggiungo tutto al mainContent
-        mainContent.getChildren().addAll(boxNumeroGiocatori, boxCentratoEspansioni, espansioniEBottoneCentro, boxImmaginiPersonaggi, scrollChatBox, labelHaiRollato);
+        mainContent.getChildren().addAll(
+                boxNumeroGiocatori, boxCentratoEspansioni, espansioniEBottoneCentro,
+                boxImmaginiPersonaggi, scrollChatBox, labelHaiRollato);
 
         root.setCenter(mainContent);
 
@@ -325,6 +337,7 @@ public class TalismanRandomizerFX extends Application {
         estraiButton.setText(ServizioLingua.get("buttons", "estrai"));
         abilitaModalitaScura.setText(ServizioLingua.get("labels", "modalitaScura"));
         labelHaiRollato.setText(""); // lo cleanniamo dopo averlo usato
+        labelAbilitaBan.setText(ServizioLingua.get("labels", "abilitaBan"));
 
         // aggiorno testo checkbox espansioni
         Map<String, String> legenda = ServizioLingua.getEspansioni();
